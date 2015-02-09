@@ -1,0 +1,3 @@
+Director:
+  rules:
+    'scussi//$Action/$Name': 'ScussiController'

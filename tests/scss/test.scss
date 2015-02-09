@@ -1,0 +1,5 @@
+@import "mixins/testing";
+
+* {
+	@include box-sizing(border-box);
+}
