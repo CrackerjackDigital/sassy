@@ -19,7 +19,7 @@
 	},
 	"extra": {
 		"installer-paths": {
-			"/sassy": ["crackerjackdigital/silverstripe-sassy"]
+			"sassy": ["crackerjackdigital/silverstripe-sassy"]
 		}
 	}
 }
