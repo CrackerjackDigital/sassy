@@ -1,5 +1,5 @@
 {
-	"name": "silverstripe-sassy",
+	"name": "crackerjackdigital/silverstripe-sassy",
 	"type": "silverstripe-module",
 	"description": "SCSS dynamic compiler for SilverStripe",
 	"homepage": "http://github.com/crackerjackdigital",
