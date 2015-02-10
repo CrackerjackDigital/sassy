@@ -1,5 +1,5 @@
 {
-	"name": "sassy",
+	"name": "silverstripe-sassy",
 	"type": "silverstripe-module",
 	"description": "SCSS dynamic compiler for SilverStripe",
 	"homepage": "http://github.com/crackerjackdigital",
@@ -16,5 +16,10 @@
 		"composer/installers": "*",
 	    "silverstripe/framework": ">=3.0",
 	    "leafo/scssphp": ">=0.0.9"
+	},
+	"extra": {
+		"installer-paths": {
+			"/sassy": ["crackerjackdigital/silverstripe-sassy"]
+		}
 	}
 }
