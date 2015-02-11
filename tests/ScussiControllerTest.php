@@ -1,7 +1,7 @@
 <?php
 class ScussiControllerTest extends FunctionalTest {
 	public function testCSS() {
-		$config = ScussiController::config();
+		$config = SassyController::config();
 
 		$savedInputPath = $config->get('input_path');
 		$savedConfig = $config->get('formatter_config');

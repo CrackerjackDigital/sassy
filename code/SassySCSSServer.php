@@ -1,9 +1,9 @@
 <?php
 /**
  * Overrides some of the scss_server functionality to play nicer with SilverStripe routing.
- * Class ScussiSCSSServer
+ * Class SassySCSSServer
  */
-class ScussiSCSSServer extends scss_server {
+class SassySCSSServer extends scss_server {
 	protected $request;
 
 	/**
