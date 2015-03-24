@@ -14,6 +14,18 @@ class SassyController extends Controller {
 	public function css(SS_HTTPRequest $request) {
 		$inputPath = $request->getVar('input_path') ?: (SassyController::config()->get('input_path') ?: (SSViewer::get_theme_folder() . "/scss"));
 
+        if ($request->param('Name') === 'fonts') {
+            $url = explode('/', $request->getVar('url'));
+            list($font, $path) = array_reverse($url);
+            readfile(Controller::join_links(
+                Director::baseFolder(),
+                MosaicModule::get_module_path(),
+                'fonts',
+                $font
+            ));
+            return;
+        }
+
 		$scss = new scssc();
 
 		$paths = array_map(function($path) {
