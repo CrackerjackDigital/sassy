@@ -18,7 +18,6 @@
 	    "leafo/scssphp": ">=0.0.9"
 	},
 	"extra": {
-		"installer-name": "sassy",
 		"installer-paths": {
 			"sassy": ["crackerjackdigital/silverstripe-sassy"]
 		}
