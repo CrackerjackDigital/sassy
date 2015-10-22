@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "455a5fa67b668a5b8504bed65b0d16d5",
-    "content-hash": "8971346819a8b9c4c50c7b30220632a7",
+    "hash": "a3b6600eec7c2fe795d388a214ea8878",
+    "content-hash": "c03df3cbe1ad684126770988e823d943",
     "packages": [
         {
             "name": "composer/installers",
@@ -182,59 +182,21 @@
         },
         {
             "name": "leafo/scssphp",
-            "version": "v0.3.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/leafo/scssphp.git",
-                "reference": "033dd027dfc8e1905ce782a687160d66d3bd65ee"
-            },
+            "version": "0.0.15",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/leafo/scssphp/zipball/033dd027dfc8e1905ce782a687160d66d3bd65ee",
-                "reference": "033dd027dfc8e1905ce782a687160d66d3bd65ee",
-                "shasum": ""
+                "url": "https://github.com/leafo/scssphp/archive/v0.0.15.zip",
+                "reference": null,
+                "shasum": null
             },
-            "require": {
-                "php": ">=5.3.0"
-            },
-            "require-dev": {
-                "kherge/box": "~2.5",
-                "phpunit/phpunit": "~3.7",
-                "squizlabs/php_codesniffer": "~2.3"
-            },
-            "bin": [
-                "bin/pscss"
-            ],
-            "type": "library",
-            "autoload": {
-                "classmap": [
-                    "classmap.php"
-                ],
-                "psr-4": {
-                    "Leafo\\ScssPhp\\": "src/"
+            "type": "component",
+            "extra": {
+                "component": {
+                    "files": [
+                        "scss.inc.php"
+                    ]
                 }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Leaf Corcoran",
-                    "email": "leafot@gmail.com",
-                    "homepage": "http://leafo.net"
-                }
-            ],
-            "description": "scssphp is a compiler for SCSS written in PHP.",
-            "homepage": "http://leafo.github.io/scssphp/",
-            "keywords": [
-                "css",
-                "less",
-                "sass",
-                "scss",
-                "stylesheet"
-            ],
-            "time": "2015-10-04 16:25:29"
+            }
         },
         {
             "name": "robloach/component-installer",

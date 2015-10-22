@@ -15,6 +15,31 @@
 		"php": ">=5.3.2",
 		"composer/installers": "*",
 		"robloach/component-installer": "*",
-		"leafo/scssphp": ">=0.0.9"
-	}
+		"leafo/scssphp": "0.0.15"
+	},
+	"repositories": [
+		{
+			"type": "package",
+			"package": {
+				"name": "leafo/scssphp",
+				"type": "component",
+				"version": "0.0.15",
+				"dist": {
+					"type": "zip",
+					"url": "https://github.com/leafo/scssphp/archive/v0.0.15.zip"
+				},
+				"src": {
+					"type": "git",
+					"url": "https://github.com/leafo/scssphp.git"
+				},
+				"extra": {
+					"component": {
+						"files": [
+							"scss.inc.php"
+						]
+					}
+				}
+			}
+		}
+	]
 }
