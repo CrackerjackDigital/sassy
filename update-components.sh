@@ -9,5 +9,5 @@ rm -vfr vendor/leafo components/scssphp
 echo "3/4: Updating components"
 composer update --prefer-dist --no-dev
 echo "4/4: Removing cruft"
-rm -vf components/*.js
+rm -vf components/*.js components/*.css
 echo "done"
