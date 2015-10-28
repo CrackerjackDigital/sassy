@@ -11,15 +11,22 @@ class SassyController extends Controller {
 		'live' => 'scss_formatter_compressed'
 	);
 
+	private static $read_file_paths = [
+		'fonts'
+	];
+
 	public function css(SS_HTTPRequest $request) {
 		$inputPath = $request->getVar('input_path') ?: (SassyController::config()->get('input_path') ?: (SSViewer::get_theme_folder() . "/scss"));
 
-        if ($request->param('Name') === 'fonts') {
+		// handle paths registered in read_file_paths as straight through files not scss.
+        if (in_array($request->param('Name'), static::config()->get('read_file_paths'))) {
             $url = explode('/', $request->getVar('url'));
-            list($font, $path) = array_reverse($url);
+
+	        list($font, $path) = array_reverse($url);
+
             readfile(Controller::join_links(
                 Director::baseFolder(),
-                MosaicModule::get_module_path(),
+                MosaicModule::module_path(),
                 'fonts',
                 $font
             ));
