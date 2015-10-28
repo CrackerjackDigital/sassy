@@ -1,4 +1,5 @@
 #!/bin/bash
+echo "Updating sassy components"
 echo "1/4: setting up environment"
 dir=$(cd -P -- "$(dirname -- "$0")" && pwd -P)
 cd $dir
