@@ -1,4 +1,8 @@
 #!/bin/bash
+if [ "$CJENV" != "dev" ]; then
+	echo "Please update components in dev environment and commit to git"
+	exit 1;
+fi
 echo "Updating sassy components"
 echo "1/4: setting up environment"
 dir=$(cd -P -- "$(dirname -- "$0")" && pwd -P)
