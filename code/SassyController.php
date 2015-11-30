@@ -1,7 +1,7 @@
 <?php
 class SassyController extends Controller {
-	private static $allowed_actions = array('css');
-	private static $input_path = '';
+	private static $allowed_actions = array('css', 'fonts');
+	private static $scss_path = '';
 	private static $cache_path = '';
 	private static $import_paths = array();
 	private static $formatter_config = '';      // dev, test or live, leave blank to use current environment instead
@@ -15,8 +15,29 @@ class SassyController extends Controller {
 		'fonts'
 	];
 
+	/**
+	 * Read requests to fonts path directly (this is also handled in css handler for read_file_paths).
+	 * @param \SS_HTTPRequest $request
+	 */
+	public function fonts(SS_HTTPRequest $request) {
+		// handle paths registered in read_file_paths as straight through files not scss.
+		if (in_array($request->param('Name'), static::config()->get('read_file_paths'))) {
+			$url = explode('/', $request->getVar('url'));
+
+			list($font, $path) = array_reverse($url);
+
+			readfile(Controller::join_links(
+					Director::baseFolder(),
+					MosaicModule::module_path(),
+					'fonts',
+					$font
+			));
+			return;
+		}
+	}
+
 	public function css(SS_HTTPRequest $request) {
-		$inputPath = $request->getVar('input_path') ?: (SassyController::config()->get('input_path') ?: (SSViewer::get_theme_folder() . "/scss"));
+		$inputPath = SassyController::config()->get('scss_path') ?: (SSViewer::get_theme_folder() . "/scss");
 
 		// handle paths registered in read_file_paths as straight through files not scss.
         if (in_array($request->param('Name'), static::config()->get('read_file_paths'))) {
@@ -47,7 +68,7 @@ class SassyController extends Controller {
 
 		$scss->setFormatter($formatters[$this->getFormatterName()]);
 
-		$cachePath = SassyController::config()->get('cache_path') ?: BASE_PATH . "/" . Requirements::backend()->getCombinedFilesFolder() . "/scss_cache";
+		$cachePath = BASE_PATH . '/' . (SassyController::config()->get('cache_path') ?: Requirements::backend()->getCombinedFilesFolder() . "/sassy");
 
 		$server = new SassySCSSServer(BASE_PATH . "/" . $inputPath, $cachePath, $scss);
 		$server->setRequest($request);
