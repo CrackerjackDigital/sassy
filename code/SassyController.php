@@ -1,5 +1,9 @@
 <?php
+use \Modular\config;
+
 class SassyController extends Controller {
+	use config;
+
 	private static $allowed_actions = array('css', 'fonts');
 	private static $scss_path = '';
 	private static $cache_path = '';
@@ -35,6 +39,7 @@ class SassyController extends Controller {
 			return;
 		}
 	}
+
 
 	public function css(SS_HTTPRequest $request) {
 		$inputPath = SassyController::config()->get('scss_path') ?: (SSViewer::get_theme_folder() . "/scss");
@@ -85,6 +90,11 @@ class SassyController extends Controller {
 		}
 		return $response;
 	}
+
+	/**
+	 * Return the Scss compiler formatter to use for the current silverstripe environment type (dev, test, live).
+	 * @return string
+	 */
 	private function getFormatterName() {
 		return SassyController::config()->get('formatter_config') ?: SS_ENVIRONMENT_TYPE;
 	}
