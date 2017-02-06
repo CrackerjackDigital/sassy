@@ -65,19 +65,6 @@ class FrontController extends Controller {
 	 * @return string
 	 */
 	public function css(HTTPRequest $request) {
-		// handle paths registered in passthru_file_paths as straight through files not scss.
-		if (in_array($request->param('Name'), static::config()->get('passthru_file_paths'))) {
-			$url = explode('/', $request->getVar('url'));
-
-			list($fontFileName, $path) = array_reverse($url);
-
-			readfile(Controller::join_links(
-				static::font_path(),
-				$fontFileName
-			));
-			return '';
-		}
-
 		$compiler = new Compiler();
 
 		$scssPath = static::scss_path();
