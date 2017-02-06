@@ -2,9 +2,9 @@
 namespace Sassy;
 
 use Exception;
+use Leafo\ScssPhp\Compiler;
 use SilverStripe\Assets\Filesystem;
 use SilverStripe\Control\Controller;
-use SilverStripe\Control\Director;
 use SilverStripe\Control\HTTPRequest;
 use SilverStripe\View\Requirements;
 use SilverStripe\View\SSViewer;
@@ -12,12 +12,15 @@ use SilverStripe\View\SSViewer;
 class FrontController extends Controller {
 	private static $allowed_actions = [
 		'css',
-		'fonts',
+		'font',
 	];
 
 	// if paths are prefixed by '/' they are treated as relative to site root, otherwise the current theme dir (e.g. themes/name/scss for scss_path)
 	private static $scss_path = 'scss';
-	private static $font_path = 'fonts';
+
+	private static $font_paths = [
+		'fonts'
+	];
 
 	// set to folder where css should be compiled to, e.g. '/assets/css'. If not set the combined files folder will be used.
 	private static $css_path = '';
@@ -25,19 +28,14 @@ class FrontController extends Controller {
 	// paths to check for scss files being imported if not fully specified in scss
 	private static $import_paths = array();
 
-	// output format dev, test or live, leave blank to use current environment instead
-	private static $formatter_config = '';
+	// force output format dev, test or live, leave blank to use current environment
+	private static $formatter = '';
 
-	// output format for SS_ENVIRONMENT_TYPE see leafo docs for more info.
-	private static $formatter_names = array(
-		'dev'  => 'scss_formatter_nested',
-		'test' => 'scss_formatter_compressed',
-		'live' => 'scss_formatter_compressed',
-	);
-
-	// safe paths to pass files through from, e.g. fonts
-	private static $passthru_file_paths = [
-		'fonts',
+	// map of SS environment to Formatter class
+	private static $formatters = [
+		# 'dev' => 'Leafo\ScssPhp\Formatter\Nested'
+		# 'test' => 'Leafo\ScssPhp\Formatter\Compact',
+		# 'live' => 'Leafo\ScssPhp\Formatter\Compressed'
 	];
 
 	/**
@@ -45,20 +43,18 @@ class FrontController extends Controller {
 	 *
 	 * @param HTTPRequest $request
 	 */
-	public function fonts(HTTPRequest $request) {
-		// handle paths registered in passthru_file_paths as straight through files not scss.
-		if (in_array($request->param('Name'), static::config()->get('passthru_file_paths'))) {
-			$url = explode('/', $request->getVar('url'));
+	public function font(HTTPRequest $request) {
+		if ($fileName = $request->param('Name')) {
+			// param will not have an extension so get from url instead
+			$fileName = current(array_reverse(explode('/', $request->getURL())));
 
-			list($font,) = array_reverse($url);
-
-			readfile(Controller::join_links(
-				Director::baseFolder(),
-				static::font_path(),
-				'fonts',
-				$font
-			));
-			return;
+			foreach (static::config()->get('font_paths') ?: [] as $path) {
+				$filePathName = Controller::join_links(static::build_path($path), $fileName);
+				if (file_exists($filePathName)) {
+					readfile($filePathName);
+					break;
+				}
+			}
 		}
 	}
 
@@ -69,8 +65,6 @@ class FrontController extends Controller {
 	 * @return string
 	 */
 	public function css(HTTPRequest $request) {
-		$scssPath = static::scss_path();
-
 		// handle paths registered in passthru_file_paths as straight through files not scss.
 		if (in_array($request->param('Name'), static::config()->get('passthru_file_paths'))) {
 			$url = explode('/', $request->getVar('url'));
@@ -84,20 +78,24 @@ class FrontController extends Controller {
 			return '';
 		}
 
-		$compiler = new \scssc();
+		$compiler = new Compiler();
 
-		$paths = array_map(
-			function ($path) {
-				return BASE_PATH . "/" . $path;
-			},
-			array_merge(array($scssPath), static::config()->get('import_paths'))
+		$scssPath = static::scss_path();
+		$importPaths = static::config()->get('import_paths') ?: [];
+
+		$paths = array_merge(
+			array_map(
+				function ($path) {
+					return static::build_path($path);
+				},
+				$importPaths
+			),
+			[ $scssPath ]
 		);
 
 		$compiler->setImportPaths($paths);
 
-		$formatters = static::config()->get('formatter_names');
-
-		$compiler->setFormatter($formatters[ $this->getFormatterName() ]);
+		$compiler->setFormatter($this->getFormatter());
 
 		$outputPath = static::css_path();
 
@@ -122,8 +120,9 @@ class FrontController extends Controller {
 	 *
 	 * @return string
 	 */
-	private function getFormatterName() {
-		return FrontController::config()->get('formatter_config') ?: getenv('SS_ENVIRONMENT_TYPE');
+	private function getFormatter() {
+		$formatters = static::config()->get('formatters');
+		return $formatters[ static::config()->get('formatter') ?: getenv('SS_ENVIRONMENT_TYPE') ];
 	}
 
 	/**
@@ -143,15 +142,6 @@ class FrontController extends Controller {
 	private static function css_path() {
 		$path = static::config()->get('css_path') ?: Controller::join_links('/', ASSETS_DIR, Requirements::backend()->getCombinedFilesFolder() . "/sassy");
 		return static::build_path($path, true);
-	}
-
-	/**
-	 * Return path (in filesystem) to font files.
-	 *
-	 * @return string
-	 */
-	private static function font_path() {
-		return static::build_path(static::config()->get('font_path'));
 	}
 
 	/**

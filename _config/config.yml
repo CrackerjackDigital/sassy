@@ -1,6 +1,10 @@
 ---
 Name: sassy-config
 ---
-Sassy\Controller:
+Sassy\FrontController:
   scss_path: 'scss'
   font_path: 'fonts'
+  formatters:
+    dev: 'Leafo\ScssPhp\Formatter\Expanded'
+    test: 'Leafo\ScssPhp\Formatter\Compact'
+    live: 'Leafo\ScssPhp\Formatter\Crunched'
