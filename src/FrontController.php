@@ -15,6 +15,11 @@ class FrontController extends Controller {
 		'font',
 	];
 
+	// add paths to here if you want to serve files from outside of web root
+	private static $safe_paths = [
+		BASE_PATH
+	];
+
 	// if paths are prefixed by '/' they are treated as relative to site root, otherwise the current theme dir (e.g. themes/name/scss for scss_path)
 	private static $scss_path = 'scss';
 
@@ -39,7 +44,7 @@ class FrontController extends Controller {
 	];
 
 	/**
-	 * Read requests to fonts path directly (this is also handled in css handler for passthru_file_paths). See font_path() below for where it looks.
+	 * Try and read font from all configured font_paths, meaning font can be e.g. in 'vendor' and still be served even though blocked by .htaccess.
 	 *
 	 * @param HTTPRequest $request
 	 */
@@ -165,8 +170,14 @@ class FrontController extends Controller {
 			if (!realpath($path) && !$create) {
 				throw new Exception("'$path' doesn't exist");
 			}
-			if (substr($path, 0, strlen(BASE_PATH)) != BASE_PATH) {
-				throw new Exception("'$path' is not inside the web root so won't continue");
+			$safe = false;
+			foreach (static::config()->get('safe_paths') as $safePath) {
+				if ($safe = (substr($path, 0, strlen($safePath)) == $safePath)) {
+					break;
+				}
+			}
+			if (!$safe) {
+				throw new Exception("'$path' is not inside list of safe paths so won't continue");
 			}
 			if ($create && !is_dir($path)) {
 				// create the css file to write compiled scss to for direct reference e.g. on live servers
