@@ -1,0 +1,6 @@
+---
+Name: sassy-config
+---
+Sassy\Controller:
+  scss_path: 'scss'
+  font_path: 'fonts'

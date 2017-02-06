@@ -1,6 +1,6 @@
 ---
-Name: sassy-config
+Name: sassy-routes
 ---
-Director:
+SilverStripe\Control\Director:
   rules:
-    'sassy//$Action/$Name': 'SassyController'
+    'sassy//$Action/$Name': 'Sassy\FrontController'

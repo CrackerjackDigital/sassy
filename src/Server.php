@@ -1,16 +1,28 @@
 <?php
+namespace Sassy;
+
+use SilverStripe\Control\HTTPRequest;
+
 /**
  * Overrides some of the scss_server functionality to play nicer with SilverStripe routing.
- * Class SassySCSSServer
+ * Class Server
  */
-class SassySCSSServer extends scss_server {
+class Server extends \Leafo\ScssPhp\Server {
 	protected $request;
+
+	// dir is private in parent so save a copy here to reference in findInput
+	protected $path;
+
+	public function __construct($dir, $cacheDir = null, $scss = null) {
+		parent::__construct($dir, $cacheDir, $scss);
+		$this->path = $dir;
+	}
 
 	/**
 	 * Sets the SS request object so we can use it later to get e.g. script name.
-	 * @param SS_HTTPRequest $request
+	 * @param HTTPRequest $request
 	 */
-	public function setRequest(SS_HTTPRequest $request) {
+	public function setRequest(HTTPRequest $request) {
 		$this->request = $request;
 	}
 
@@ -23,7 +35,7 @@ class SassySCSSServer extends scss_server {
 		if (($input = $this->inputName())
 			&& strpos($input, '..') === false
 		) {
-			$name = $this->join($this->dir, $input . ".scss");
+			$name = $this->join($this->path, $input . ".scss");
 
 			if (is_file($name) && is_readable($name)) {
 				return $name;
