@@ -1,0 +1,8 @@
+---
+Name: sassy-config
+---
+SassyController:
+  formatter_config: true
+Page:
+  extensions:
+    - SassyContentControllerExtension     # provides SassyCacheBuster for dev/test mode

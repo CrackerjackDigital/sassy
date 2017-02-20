@@ -3,4 +3,4 @@ Name: sassy-config
 ---
 Director:
   rules:
-    'sassy//$Action/$Name': 'SassyController'
+    'sassy': 'SassyController'

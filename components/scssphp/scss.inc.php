@@ -1953,7 +1953,7 @@ class scssc {
 		return $out;
 	}
 
-	// Built in functions
+	// Build in functions
 
 	protected static $lib_if = array('condition', 'if-true', 'if-false');
 	protected function lib_if($args) {
