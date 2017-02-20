@@ -13,6 +13,6 @@
 	],
 	"require": {
 		"composer/installers": "*",
-		"leafo/scssphp": "0.6.6"
+		"leafo/scssphp": "*"
 	}
 }

@@ -1,14 +1,4 @@
 <?php
-namespace Sassy;
-
-use Exception;
-use Leafo\ScssPhp\Compiler;
-use SilverStripe\Assets\Filesystem;
-use SilverStripe\Control\Controller;
-use SilverStripe\Control\HTTPRequest;
-use SilverStripe\View\Requirements;
-use SilverStripe\View\SSViewer;
-
 class FrontController extends Controller {
 	private static $allowed_actions = [
 		'css',
@@ -66,7 +56,7 @@ class FrontController extends Controller {
 	/**
 	 * matches sassy/css/<name> and returns compiled css for that scss file if found. See scss_path() below for where it looks.
 	 *
-	 * @param \SilverStripe\Control\HTTPRequest $request
+	 * @param SS_HTTPRequest $request
 	 * @return string
 	 */
 	public function css(HTTPRequest $request) {
