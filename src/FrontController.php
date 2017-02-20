@@ -1,4 +1,7 @@
 <?php
+use Leafo\ScssPhp\Compiler;
+use Sassy\Server;
+
 class FrontController extends Controller {
 	private static $allowed_actions = [
 		'css',
