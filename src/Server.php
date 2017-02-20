@@ -1,8 +1,4 @@
 <?php
-namespace Sassy;
-
-use SilverStripe\Control\HTTPRequest;
-
 /**
  * Overrides some of the scss_server functionality to play nicer with SilverStripe routing.
  * Class Server
@@ -20,9 +16,9 @@ class Server extends \Leafo\ScssPhp\Server {
 
 	/**
 	 * Sets the SS request object so we can use it later to get e.g. script name.
-	 * @param HTTPRequest $request
+	 * @param SS_HTTPRequest $request
 	 */
-	public function setRequest(HTTPRequest $request) {
+	public function setRequest(SS_HTTPRequest $request) {
 		$this->request = $request;
 	}
 
