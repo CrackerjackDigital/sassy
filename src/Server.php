@@ -3,7 +3,7 @@
  * Overrides some of the scss_server functionality to play nicer with SilverStripe routing.
  * Class Server
  */
-class Server extends \Leafo\ScssPhp\Server {
+class SassyServer extends \Leafo\ScssPhp\Server {
 	protected $request;
 
 	// dir is private in parent so save a copy here to reference in findInput

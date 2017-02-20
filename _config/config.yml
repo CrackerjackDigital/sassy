@@ -1,7 +1,7 @@
 ---
 Name: sassy-config
 ---
-Sassy\FrontController:
+SassyFrontController:
   scss_path: 'scss'
   font_path: 'fonts'
   formatters:

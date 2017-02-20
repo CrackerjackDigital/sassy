@@ -3,4 +3,4 @@ Name: sassy-routes
 ---
 Director:
   rules:
-    'sassy': 'Sassy\FrontController'
+    'sassy//$Action!/$Name!/$CacheBuster': 'SassyFrontController'

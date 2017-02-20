@@ -1,7 +1,7 @@
 <?php
 use Leafo\ScssPhp\Compiler;
 
-class FrontController extends \Controller {
+class SassyFrontController extends \Controller {
 	private static $allowed_actions = [
 		'css',
 		'font',
@@ -83,7 +83,7 @@ class FrontController extends \Controller {
 
 		$outputPath = static::css_path();
 
-		$server = new Server($scssPath, $outputPath, $compiler);
+		$server = new SassyServer($scssPath, $outputPath, $compiler);
 		$server->setRequest($request);
 
 		ob_start();
@@ -106,7 +106,7 @@ class FrontController extends \Controller {
 	 */
 	private function getFormatter() {
 		$formatters = static::config()->get('formatters');
-		return $formatters[ static::config()->get('formatter') ?: getenv('SS_ENVIRONMENT_TYPE') ];
+		return $formatters[ static::config()->get('formatter') ?: SS_ENVIRONMENT_TYPE ];
 	}
 
 	/**
@@ -144,7 +144,7 @@ class FrontController extends \Controller {
 				$path = Controller::join_links(BASE_PATH, $path);
 			} else {
 				// relative to theme
-				$path = Controller::join_links(THEMES_PATH, SSViewer::config()->get('theme'), $path);
+				$path = Controller::join_links(THEMES_PATH, Config::inst()->get('SSViewer', 'theme'), $path);
 			}
 			if (!realpath($path) && !$create) {
 				throw new Exception("'$path' doesn't exist");
