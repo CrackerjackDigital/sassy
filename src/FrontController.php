@@ -1,5 +1,6 @@
 <?php
 use Leafo\ScssPhp\Compiler;
+use SS_HTTPRequest as HTTPRequest;
 
 class SassyFrontController extends \Controller {
 	private static $allowed_actions = [
