@@ -2,7 +2,7 @@
 use Leafo\ScssPhp\Compiler;
 use SS_HTTPRequest as HTTPRequest;
 
-class SassyFrontController extends \Controller {
+class SassyController extends \Controller {
 	private static $allowed_actions = [
 		'css',
 		'font',
@@ -92,8 +92,10 @@ class SassyFrontController extends \Controller {
 		$response = ob_get_clean();
 
 		if (false === strpos($response, "Parse error:")) {
+			// worked ok
 			$this->getResponse()->addHeader("Content-Type", "text/css");
 		} else {
+			// fail
 			$this->getResponse()->setStatusCode(400);
 			$this->getResponse()->addHeader("Content-Type", "text/plain");
 		}

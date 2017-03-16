@@ -1,9 +1,10 @@
 ---
 Name: sassy-config
 ---
-SassyFrontController:
+SassyController:
   scss_path: 'scss'
   font_path: 'fonts'
+  input_path: ''      # if empty use the theme path as base, then scss_path or font_path gets appended
   formatters:
     dev: 'Leafo\ScssPhp\Formatter\Expanded'
     test: 'Leafo\ScssPhp\Formatter\Compact'
