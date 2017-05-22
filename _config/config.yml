@@ -1,10 +1,14 @@
 ---
 Name: sassy-config
 ---
-SassyController:
+Injector:
+  CSSService:
+    class: SassyServer
+SassyServer:
   scss_path: 'scss'
   font_path: 'fonts'
   input_path: ''      # if empty use the theme path as base, then scss_path or font_path gets appended
+  live_path: 'sassy/styles.css'
   formatters:
     dev: 'Leafo\ScssPhp\Formatter\Expanded'
     test: 'Leafo\ScssPhp\Formatter\Compact'
