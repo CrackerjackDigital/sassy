@@ -102,6 +102,9 @@ class SassyServer extends \Leafo\ScssPhp\Server {
 		}
 
 		$cacheDir = $cacheDir ?: static::cache_path();
+		if (isset($_SERVER['HTTP_REFERER']) && (false !== strpos(parse_url($_SERVER['HTTP_REFERER'], PHP_URL_QUERY), 'flush=1'))) {
+			Filesystem::removeFolder( $cacheDir);
+		}
 
 		parent::__construct( $this->scssPath, $cacheDir, $compiler );
 	}
